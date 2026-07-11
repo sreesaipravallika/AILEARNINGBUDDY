@@ -50,10 +50,10 @@ if st.button("Generate"):
 
             try:
                 # Call the recommended gemini-2.5-flash model
-                response = client.models.generate_content(
-                    model="gemini-2.5-flash",
-                    contents=prompt,
+                response = client.interactions.create(
+                    model="gemini-3.5-flash",
+                    input=prompt,
                 )
-                st.write(response.text)
+                st.write(response.output_text)
             except Exception as e:
                 st.error(f"An error occurred while generating content: {e}")
