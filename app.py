@@ -67,6 +67,10 @@ st.markdown(f"""
         line-height: 1.7;
         color: {text_color};
     }}
+    .result-card h3 {{
+        color: {text_color};
+        margin-top: 0;
+    }}
     div.stButton > button {{
         background: linear-gradient(90deg, #FF2CDF, #7F5AF0, #00E0FF);
         color: white;
@@ -213,7 +217,7 @@ if generate:
 # ---------- Render last result (persists across reruns for quiz interaction) ----------
 if st.session_state.last_option == "Generate Quiz" and st.session_state.quiz_answers:
     qa = st.session_state.quiz_answers
-    st.markdown(f'<div class="result-card">### 📝 Quiz on {qa["topic"]}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="result-card"><h3>📝 Quiz on {qa["topic"]}</h3></div>', unsafe_allow_html=True)
     user_choices = []
     for i, item in enumerate(qa["items"]):
         choice = st.radio(item["q"], item["options"], key=f"quiz_{i}", index=None)
