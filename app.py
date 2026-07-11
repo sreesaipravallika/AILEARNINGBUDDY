@@ -20,13 +20,14 @@ st.markdown("""
     }
     .subtitle {
         text-align: center;
-        color: #9CA3AF;
+        color: #6B7280;
         font-size: 1.05rem;
         margin-top: 0px;
         margin-bottom: 2rem;
     }
     .result-card {
-        background-color: #1E1F26;
+        background-color: #F4F3FB;
+        color: #1E1F26;
         border-left: 5px solid #7F5AF0;
         padding: 1.4rem 1.6rem;
         border-radius: 12px;
