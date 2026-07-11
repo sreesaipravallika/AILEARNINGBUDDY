@@ -3,7 +3,7 @@ from google import genai
 
 # 1. Set up the page config first
 st.set_page_config(
-    page_title="AI Learning Buddy Pallavi",
+    page_title="AI Learning Buddy Pravallika",
     page_icon="🎓"
 )
 
@@ -20,7 +20,7 @@ except Exception as e:
     st.stop()
 
 # 3. Build the Streamlit UI
-st.title("🎓 AI Learning Buddy Pallavi")
+st.title("🎓 AI Learning Buddy Pravallika")
 
 topic = st.text_input("Enter a Topic", placeholder="e.g., Photosynthesis, Quantum Physics")
 
