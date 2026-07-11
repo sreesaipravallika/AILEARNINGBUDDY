@@ -114,7 +114,7 @@ with st.sidebar:
         st.caption("No topics yet — generate one to see it here!")
 
 # ---------- Header ----------
-st.markdown('<div class="main-title">🎓 AI Learning Buddy</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">🎓 AI Learning Buddy Pravallika</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Your personal study companion</div>', unsafe_allow_html=True)
 
 # ---------- Preset Topic Buttons ----------
