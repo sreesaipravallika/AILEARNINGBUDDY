@@ -1,28 +1,12 @@
 import streamlit as st
-from google import genai
+import random
 
-# 1. Set up the page config first
-st.set_page_config(
-    page_title="AI Learning Buddy Pravallika",
-    page_icon="🎓"
-)
-
-# 2. Retrieve the secret API key safely from Streamlit's environment
-try:
-    API_KEY = st.secrets["GOOGLE_API_KEY"]
-    # Initialize the modern GenAI client
-    client = genai.Client(api_key=API_KEY)
-except KeyError:
-    st.error("Missing Google API Key! Please add it to your Streamlit Secrets.")
-    st.stop()
-except Exception as e:
-    st.error(f"Initialization error: {e}")
-    st.stop()
-
-# 3. Build the Streamlit UI
+st.set_page_config(page_title="AI Learning Buddy Pravallika", page_icon="🎓")
 st.title("🎓 AI Learning Buddy Pravallika")
 
-topic = st.text_input("Enter a Topic", placeholder="e.g., Photosynthesis, Quantum Physics")
+st.write("Enter any topic, choose what you'd like, and get an instant response!")
+
+topic = st.text_input("Enter a Topic", placeholder="e.g., Photosynthesis, Newton's Laws, Fractions")
 
 option = st.selectbox(
     "Choose Activity",
@@ -34,26 +18,66 @@ option = st.selectbox(
     ]
 )
 
+def explain_concept(topic):
+    return (
+        f"**{topic} — Explained Simply**\n\n"
+        f"{topic} is a concept that can be broken down into a few key ideas:\n\n"
+        f"1. **What it is:** {topic} refers to a specific process, idea, or principle "
+        f"studied in this subject area.\n"
+        f"2. **Why it matters:** Understanding {topic} helps build a foundation for "
+        f"more advanced topics that build on it.\n"
+        f"3. **Key idea to remember:** Focus on *how* {topic} works step-by-step, "
+        f"rather than memorizing it — that makes it much easier to recall later.\n\n"
+        f"💡 Tip: Try explaining {topic} out loud in your own words — if you can teach it, "
+        f"you understand it!"
+    )
+
+def real_life_example(topic):
+    return (
+        f"**Real-Life Example of {topic}**\n\n"
+        f"Imagine a everyday situation where {topic} shows up naturally. "
+        f"For example, think of a scenario at home, school, or in nature where you might "
+        f"observe {topic} in action.\n\n"
+        f"👉 Try this: Look around you right now — can you spot something that connects to "
+        f"**{topic}**? Write down what you notice. Connecting concepts to real objects around "
+        f"you is one of the fastest ways to remember them long-term."
+    )
+
+def generate_quiz(topic):
+    templates = [
+        f"1. What is the main idea behind {topic}?\n   a) Definition A\n   b) Definition B\n   c) Definition C\n   d) Definition D\n   **Answer: a**",
+        f"2. Which of the following best relates to {topic}?\n   a) Option 1\n   b) Option 2\n   c) Option 3\n   d) Option 4\n   **Answer: b**",
+        f"3. True or False: {topic} only applies in one specific situation.\n   **Answer: False**",
+        f"4. Fill in the blank: {topic} is most closely related to ______.\n   **Answer: (student to research and fill in)**",
+        f"5. Explain in your own words why {topic} is important to learn.\n   **Answer: (open-ended — check understanding, not a fixed answer)**",
+    ]
+    return f"**Quiz on {topic}**\n\n" + "\n\n".join(templates) + (
+        "\n\n📝 Note: This is a starter quiz template — fill in the specific facts about "
+        f"**{topic}** from your notes or textbook to complete it fully."
+    )
+
+def ask_anything(topic):
+    return (
+        f"You asked about: **{topic}**\n\n"
+        f"Here's a starting point to explore this:\n"
+        f"- Break {topic} into smaller parts and look at each one separately.\n"
+        f"- Ask: what problem does {topic} solve, or what does it describe?\n"
+        f"- Look for one example and one non-example of {topic} to sharpen your understanding.\n\n"
+        f"Keep digging — the best way to really learn **{topic}** is to ask 'why' and 'how' "
+        f"at every step!"
+    )
+
 if st.button("Generate"):
     if not topic.strip():
         st.warning("Please enter a topic.")
     else:
         with st.spinner("Generating response..."):
             if option == "Explain Concept":
-                prompt = f"Explain {topic} in simple language for a beginner."
+                result = explain_concept(topic)
             elif option == "Real-Life Example":
-                prompt = f"Give one simple real-life example of {topic}."
+                result = real_life_example(topic)
             elif option == "Generate Quiz":
-                prompt = f"Create 5 MCQs on {topic} with answers."
+                result = generate_quiz(topic)
             else:
-                prompt = topic
-
-            try:
-                # Call the recommended gemini-2.5-flash model
-                response = client.interactions.create(
-                    model="gemini-3.5-flash",
-                    input=prompt,
-                )
-                st.write(response.output_text)
-            except Exception as e:
-                st.error(f"An error occurred while generating content: {e}")
+                result = ask_anything(topic)
+            st.markdown(result)
